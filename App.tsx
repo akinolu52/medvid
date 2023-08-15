@@ -17,7 +17,7 @@ import { MedicalReport } from "./components/MedicalReport";
 import { Progress } from "./components/Progress";
 import { UploadContainer } from "./components/UploadContainer";
 import useApp from "./hooks/useApp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type VideoType = undefined | null | Record<string, string | number>;
 
@@ -25,7 +25,11 @@ function App(): JSX.Element {
   const isDarkMode = useColorScheme() === "dark";
   const [video, setVideo] = useState<VideoType>(null);
 
-  const { handleSave, handleUpload, progress, loading, selectVideo } = useApp();
+  const { testApi, handleSave, handleUpload, progress, loading, selectVideo } = useApp();
+
+  useEffect(() => {
+    testApi();
+  }, []);
 
   const addVideo = async () => {
     const res = await selectVideo();

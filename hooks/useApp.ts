@@ -1,21 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { useState } from "react";
 import { launchImageLibrary } from "react-native-image-picker";
 
 // type VideoType = undefined | null | Record<string, string | number>;
 
-const UPLOAD_URL = "https://";
+const UPLOAD_URL = "http://127.0.0.1:8000/home";
 
 function useApp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [progress, setProgress] = useState<number>(0);
+
+  //   const [video, setVideo] = useState<VideoType>(null);
+
+  const testApi = async () => {
+    const res = await axios.get(UPLOAD_URL);
     
-//   const [video, setVideo] = useState<VideoType>(null);
+    console.log("res ", res);
+  };
 
-
-  const handleUpload = async (video) => {
+  const handleUpload = async (video: any) => {
     //   console.log("upload", video);
     //   return;
     setLoading(true);
@@ -69,6 +75,8 @@ function useApp() {
     result,
     error,
     progress,
+
+    testApi,
   };
 }
 
