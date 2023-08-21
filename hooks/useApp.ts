@@ -5,7 +5,7 @@ import { launchImageLibrary } from "react-native-image-picker";
 
 // type VideoType = undefined | null | Record<string, string | number>;
 
-const UPLOAD_URL = "http://127.0.0.1:8000/home";
+const UPLOAD_URL = 'http://http://10.0.2.2:8000/action-recognition/';
 
 function useApp() {
   const [loading, setLoading] = useState(false);
