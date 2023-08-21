@@ -1,12 +1,12 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import { colors } from "../colors";
+import Video from "react-native-video";
 import img from "../assets/images/img.png";
+import { colors } from "../colors";
+import useApp from "../hooks/useApp";
 
-type MedicalReportType = {
-    hasImage?: boolean
-}
+function MedicalReport() {
+  const { hasVideo } = useApp();
 
-function MedicalReport({hasImage}: MedicalReportType) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -14,9 +14,16 @@ function MedicalReport({hasImage}: MedicalReportType) {
       </Text>
 
       <View style={styles.imageContainer}>
-        <View style={styles.noReport}>
-          <Image source={img} style={styles.noImage} />
-        </View>
+        {hasVideo ? (
+          <Video
+            source={require("../videos/output.mp4")}
+            controls
+            resizeMode="contain"
+            style={styles.backgroundVideo}
+          />
+        ) : (
+          <View style={styles.noReport}><Image source={img} style={styles.noImage} /></View>
+        )}
       </View>
     </View>
   );
@@ -24,17 +31,10 @@ function MedicalReport({hasImage}: MedicalReportType) {
 
 export { MedicalReport };
 
-
 const styles = StyleSheet.create({
   container: {
-    // borderRadius: 12,
-    // backgroundColor: colors["btn-background"],
-    // paddingHorizontal: 24,
-    // paddingVertical: 12,
-    // alignItems: "center",
     justifyContent: "center",
   },
-  // "text-[#071939] font-semibold text-xs font-[Roboto] text-left"
   title: {
     color: colors["primary-100"],
     fontWeight: "500",
@@ -42,23 +42,29 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto",
     textAlign: "left",
   },
-  // className="items-center justify-center mt-[14px] "
   imageContainer: {
     alignItems: "center",
     justifyContent: "center",
     marginTop: 14,
   },
-  // className="border-[0.5px] border-[#0000003b] py-[37px] px-[20px]"
   noReport: {
     borderWidth: 0.5,
     borderColor: colors.black,
-    opacity:0.2,
+    opacity: 0.2,
     paddingVertical: 37,
     paddingHorizontal: 20,
   },
-  // className="w-[103px] h-[100px]"
   noImage: {
     width: 103,
     height: 100
+  },
+  backgroundVideo: {
+    // borderWidth: 1,
+    // borderColor: "red",
+    width: "100%",
+    height: 180,
+
+    // width:"100%",
+    // height:"100%",
   },
 });

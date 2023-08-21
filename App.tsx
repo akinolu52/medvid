@@ -11,13 +11,10 @@ import {
 
 import { colors } from "./colors";
 
-import { Button } from "./components";
-import { Instruction } from "./components/Instruction";
-import { MedicalReport } from "./components/MedicalReport";
-import { Progress } from "./components/Progress";
-import { UploadContainer } from "./components/UploadContainer";
-import useApp from "./hooks/useApp";
+import { Button, MedicalReport, Progress, UploadContainer } from "./components";
+
 import { useEffect, useState } from "react";
+import useApp from "./hooks/useApp";
 
 type VideoType = undefined | null | Record<string, string | number>;
 
@@ -25,20 +22,15 @@ function App(): JSX.Element {
   const isDarkMode = useColorScheme() === "dark";
   const [video, setVideo] = useState<VideoType>(null);
 
-  const { testApi, handleSave, handleUpload, progress, loading, selectVideo } = useApp();
-
-  useEffect(() => {
-    testApi();
-  }, []);
+  const { handleUpload, progress, loading, selectVideo } = useApp();
 
   const addVideo = async () => {
     const res = await selectVideo();
 
-    setVideo(res as any);
+    setVideo(res as VideoType);
   };
 
   const uploadVideo = () => handleUpload(video);
-  
 
   return (
     // <View className="bg-[#FFF] border border-red-500 flex-1 ">
@@ -60,7 +52,7 @@ function App(): JSX.Element {
             <UploadContainer addVideo={addVideo} video={video} />
 
             <View style={styles.uploadContainer}>
-              <Button label="Upload" onPress={uploadVideo} />
+              <Button label="Run detector" onPress={uploadVideo} />
             </View>
 
             <Progress count={progress} loading={loading} />
@@ -68,11 +60,11 @@ function App(): JSX.Element {
             <MedicalReport />
           </View>
 
-          <Instruction />
+          {/* <Instruction />
 
           <View style={styles.saveContainer}>
             <Button label="Save" onPress={handleSave} />
-          </View>
+          </View> */}
         </View>
       </ScrollView>
       {/* </View> */}

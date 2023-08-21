@@ -1,25 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { launchImageLibrary } from "react-native-image-picker";
 
 // type VideoType = undefined | null | Record<string, string | number>;
 
-const UPLOAD_URL = 'http://http://10.0.2.2:8000/action-recognition/';
+const UPLOAD_URL = "http://10.0.2.2:8000/action-recognition/";
 
 function useApp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [progress, setProgress] = useState<number>(0);
+  const [hasVideo, setHasVideo] = useState<boolean>(false);
 
   //   const [video, setVideo] = useState<VideoType>(null);
-
-  const testApi = async () => {
-    const res = await axios.get(UPLOAD_URL);
-    
-    console.log("res ", res);
-  };
 
   const handleUpload = async (video: any) => {
     //   console.log("upload", video);
@@ -52,10 +47,6 @@ function useApp() {
     }
   };
 
-  const handleSave = () => {
-    console.log("save");
-  };
-
   const selectVideo = async () => {
     const res = await launchImageLibrary({
       mediaType: "mixed",
@@ -67,16 +58,26 @@ function useApp() {
     // console.log("res ", res?.assets?.[0]);
   };
 
+  useEffect(() => {
+    if (Number(progress) < 100) {
+      return;
+    }
+
+    const timeout = setTimeout(() => setHasVideo(true), 3000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [progress]);
+
   return {
     handleUpload,
-    handleSave,
     selectVideo,
+    hasVideo,
     loading,
     result,
     error,
     progress,
-
-    testApi,
   };
 }
 
