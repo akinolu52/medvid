@@ -36,8 +36,8 @@ function useApp() {
 
     try {
       const res = await axios.post(UPLOAD_URL, formData, config);
-      console.log("res ", res);
       setResult(res.data);
+      setHasVideo(true);
     } catch (error: any) {
       console.log("error ", error);
       setError(error.response);
@@ -56,18 +56,6 @@ function useApp() {
     // setVideo(_result as unknown as any);
     // console.log("res ", res?.assets?.[0]);
   };
-
-  useEffect(() => {
-    if (Number(progress) < 100) {
-      return;
-    }
-
-    const timeout = setTimeout(() => setHasVideo(true), 3000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [progress]);
 
   return {
     handleUpload,

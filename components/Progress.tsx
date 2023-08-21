@@ -5,8 +5,8 @@ import progress from "../assets/images/progress.png";
 import { colors } from "../colors";
 
 type ProgressType = {
-    count: number,
-    loading: boolean
+  count: number,
+  loading: boolean
 }
 
 function Progress({ count, loading }: ProgressType) {

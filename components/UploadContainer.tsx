@@ -1,10 +1,8 @@
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import plus from "../assets/images/plus.png";
 import { colors } from "../colors";
-import useApp from "../hooks/useApp";
 
 function UploadContainer({ addVideo, video }: any) {
-  const { selectVideo } = useApp();
 
   return (
     <View style={styles.container}>
