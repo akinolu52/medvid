@@ -14,13 +14,11 @@ function useApp() {
   const [progress, setProgress] = useState<number>(0);
   const [hasVideo, setHasVideo] = useState<boolean>(false);
 
-  //   const [video, setVideo] = useState<VideoType>(null);
+  // const [video, setVideo] = useState<VideoType>(null);
 
   const handleUpload = async (video: any) => {
-    //   console.log("upload", video);
-    //   return;
+    console.log("upload ", video);
     setLoading(true);
-    const formData = new FormData();
     const config = {
       headers: { "Content-Type": "multipart/form-data" },
       onUploadProgress: function (progressEvent: any) {
@@ -29,6 +27,7 @@ function useApp() {
       },
     };
 
+    const formData = new FormData();
     formData.append("uploaded_file", {
       name: "name.mp4",
       uri: video.uri,
