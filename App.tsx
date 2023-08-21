@@ -13,7 +13,7 @@ import { colors } from "./colors";
 
 import { Button, MedicalReport, Progress, UploadContainer } from "./components";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useApp from "./hooks/useApp";
 
 type VideoType = undefined | null | Record<string, string | number>;
@@ -22,7 +22,7 @@ function App(): JSX.Element {
   const isDarkMode = useColorScheme() === "dark";
   const [video, setVideo] = useState<VideoType>(null);
 
-  const { handleUpload, progress, loading, selectVideo } = useApp();
+  const { handleUpload, hasVideo, progress, loading, selectVideo } = useApp();
 
   const addVideo = async () => {
     const res = await selectVideo();
@@ -57,7 +57,7 @@ function App(): JSX.Element {
 
             <Progress count={progress} loading={loading} />
 
-            <MedicalReport />
+            <MedicalReport hasVideo={hasVideo} />
           </View>
 
           {/* <Instruction />

@@ -2,11 +2,8 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import Video from "react-native-video";
 import img from "../assets/images/img.png";
 import { colors } from "../colors";
-import useApp from "../hooks/useApp";
 
-function MedicalReport() {
-  const { hasVideo } = useApp();
-
+function MedicalReport({ hasVideo }: { hasVideo: boolean }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
