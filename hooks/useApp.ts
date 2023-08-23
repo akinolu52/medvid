@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { launchImageLibrary } from "react-native-image-picker";
 
 // type VideoType = undefined | null | Record<string, string | number>;
@@ -10,7 +10,7 @@ const UPLOAD_URL = "http://10.0.2.2:8000/action-recognition/";
 function useApp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<object | null>(null);
   const [progress, setProgress] = useState<number>(0);
   const [hasVideo, setHasVideo] = useState<boolean>(false);
 
@@ -28,7 +28,7 @@ function useApp() {
     };
 
     const formData = new FormData();
-    formData.append("uploaded_file", {
+    formData.append("video_file", {
       name: "name.mp4",
       uri: video.uri,
       type: "video/mp4"
@@ -36,7 +36,7 @@ function useApp() {
 
     try {
       const res = await axios.post(UPLOAD_URL, formData, config);
-      setResult(res.data);
+      setResult(res?.data);
       setHasVideo(true);
     } catch (error: any) {
       console.log("error ", error);

@@ -3,7 +3,15 @@ import Video from "react-native-video";
 import img from "../assets/images/img.png";
 import { colors } from "../colors";
 
-function MedicalReport({ hasVideo }: { hasVideo: boolean }) {
+type MedicalReportType = {
+  hasVideo: boolean
+  result: {
+    playback_url: string,
+    action_label: string
+  }
+}
+
+function MedicalReport({ hasVideo, result }: MedicalReportType) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -13,7 +21,7 @@ function MedicalReport({ hasVideo }: { hasVideo: boolean }) {
       <View style={styles.imageContainer}>
         {hasVideo ? (
           <Video
-            source={require("../videos/output.mp4")}
+            source={{ uri: result?.playback_url }}
             controls
             resizeMode="contain"
             style={styles.backgroundVideo}
@@ -22,6 +30,7 @@ function MedicalReport({ hasVideo }: { hasVideo: boolean }) {
           <View style={styles.noReport}><Image source={img} style={styles.noImage} /></View>
         )}
       </View>
+      <Text style={styles.action}>{result?.action_label}</Text>
     </View>
   );
 }
@@ -38,6 +47,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Roboto",
     textAlign: "left",
+  },
+  action: {
+    color: colors["black"],
+    fontWeight: "900",
+    fontSize: 12,
+    fontFamily: "Roboto",
+    textAlign: "center",
   },
   imageContainer: {
     alignItems: "center",
@@ -56,12 +72,7 @@ const styles = StyleSheet.create({
     height: 100
   },
   backgroundVideo: {
-    // borderWidth: 1,
-    // borderColor: "red",
     width: "100%",
     height: 180,
-
-    // width:"100%",
-    // height:"100%",
   },
 });
