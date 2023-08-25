@@ -2,6 +2,8 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import Video from "react-native-video";
 import img from "../assets/images/img.png";
 import { colors } from "../colors";
+import { AppContext } from "../Provider/AppProvider";
+import { useContext } from "react";
 
 type MedicalReportType = {
   hasVideo: boolean
@@ -12,6 +14,10 @@ type MedicalReportType = {
 }
 
 function MedicalReport({ hasVideo, result }: MedicalReportType) {
+  const { data } = useContext(AppContext);
+
+  const videoUri = result || data;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -21,7 +27,7 @@ function MedicalReport({ hasVideo, result }: MedicalReportType) {
       <View style={styles.imageContainer}>
         {hasVideo ? (
           <Video
-            source={{ uri: result?.playback_url }}
+            source={{ uri: videoUri }}
             controls
             resizeMode="contain"
             style={styles.backgroundVideo}

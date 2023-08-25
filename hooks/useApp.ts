@@ -1,23 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { launchImageLibrary } from "react-native-image-picker";
-
-// type VideoType = undefined | null | Record<string, string | number>;
+import { AppContext } from "../Provider/AppProvider";
 
 const UPLOAD_URL = "http://10.0.2.2:8000/action-recognition/";
 
 function useApp() {
+  const { setData } = useContext(AppContext);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<object | null>(null);
   const [progress, setProgress] = useState<number>(0);
   const [hasVideo, setHasVideo] = useState<boolean>(false);
 
-  // const [video, setVideo] = useState<VideoType>(null);
-
   const handleUpload = async (video: any) => {
-    console.log("upload ", video);
     setLoading(true);
     const config = {
       headers: { "Content-Type": "multipart/form-data" },
@@ -36,7 +34,10 @@ function useApp() {
 
     try {
       const res = await axios.post(UPLOAD_URL, formData, config);
-      setResult(res?.data);
+      const videoUrl = res?.data?.playback_url || null;
+      
+      setResult(videoUrl);
+      setData(videoUrl);
       setHasVideo(true);
     } catch (error: any) {
       console.log("error ", error);
@@ -52,9 +53,6 @@ function useApp() {
       selectionLimit: 1,
     });
     return res?.assets?.[0];
-
-    // setVideo(_result as unknown as any);
-    // console.log("res ", res?.assets?.[0]);
   };
 
   return {
