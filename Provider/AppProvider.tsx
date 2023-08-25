@@ -1,4 +1,8 @@
-import { createContext, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
+
+interface AppProviderProps {
+  children: ReactNode;
+}
 
 interface AppContextInterface {
     data: string | null;
@@ -9,9 +13,8 @@ export const AppContext = createContext<AppContextInterface>(
   {} as AppContextInterface
 );
 
-// export const AppContext = createContext({});
 
-const AppProvider = ({ children }: never) => {
+const AppProvider: React.FC<AppProviderProps> = ({ children }: AppProviderProps) => {
   const [data, setData] = useState<string | null>(null);
 
   return (
@@ -20,18 +23,5 @@ const AppProvider = ({ children }: never) => {
     </AppContext.Provider>
   );
 };
-
-// function useAuth() {
-//   const context = useContext(AuthContext);
-  
-//   if (!context) {
-//     throw new Error("useAuth must be used within an AuthProvider");
-//   }
-  
-//   return context;
-// }
-  
-// export { useAuth, AuthProvider };
-
     
 export default AppProvider;
